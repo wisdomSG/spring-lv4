@@ -4,6 +4,7 @@ import com.example.springlv4.dto.SignupRequestDto;
 import com.example.springlv4.dto.UserRequestDto;
 import com.example.springlv4.entity.User;
 import com.example.springlv4.repository.UserRepository;
+import com.example.springlv4.security.JwtUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,11 +18,14 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final JwtUtil jwtUtil;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
     }
+
 
     // 회원가입 메서드
     public void signup(SignupRequestDto dto) {
@@ -42,9 +46,19 @@ public class UserService {
     // 로그인 메서드
     public void login(UserRequestDto dto, HttpServletResponse response) {
         String username = dto.getUsername();
-        String password = passwordEncoder.encode(dto.getPassword());
+        String password = dto.getPassword();
 
         User user = findUser(username);
+
+        // password 확인
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new IllegalArgumentException("password 오류입니다.");
+        }
+
+        // JWT 생성 및 헤더에 추가
+        String token = jwtUtil.createToken(username);
+        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, token);
+
     }
 
     // 쿼리메서드 사용해서 username으로 DB에 user 찾기

@@ -10,7 +10,8 @@ import java.util.List;
 @Entity
 @Getter
 @Table(name="posts")
-public class Post {
+@NoArgsConstructor
+public class Post extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,5 +35,14 @@ public class Post {
         this.title = title;
         this.content = content;
         this.user = user;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }
