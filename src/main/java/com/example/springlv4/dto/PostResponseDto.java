@@ -14,7 +14,7 @@ public class PostResponseDto {
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-//    private List<CommentResponseDto> comment;
+    private List<CommentResponseDto> comment;
 
 
 
@@ -26,10 +26,10 @@ public class PostResponseDto {
         this.content = post.getContent();
         this.createdAt = post.getCreatedAt();
         this.modifiedAt = post.getModifiedAt();
-//        this.comment = post.getCommentList()
-//                .stream()
-//                .map(CommentResponseDto::new)
-//                .toList();
+        this.comment = post.getCommentList()
+                .stream()
+                .map(CommentResponseDto::new)
+                .toList();
 
     }
 

@@ -6,6 +6,7 @@ import com.example.springlv4.dto.PostResponseDto;
 import com.example.springlv4.entity.Post;
 import com.example.springlv4.entity.User;
 import com.example.springlv4.repository.PostRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,13 +14,12 @@ import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
 
 @Service
+@RequiredArgsConstructor
+
 public class PostService {
 
     private final PostRepository postRepository;
 
-    public PostService(PostRepository postRepository) {
-        this.postRepository = postRepository;
-    }
 
     // 게시물 생성
     public void createPost(PostRequestDto dto, User user) {
@@ -76,7 +76,7 @@ public class PostService {
 
 
 
-    private Post findPost(Long id) {
+    public Post findPost(Long id) {
         return postRepository.findById(id).orElseThrow(()->
                 new IllegalArgumentException("해당 게시글은 존재하지 않습니다."));
     }
