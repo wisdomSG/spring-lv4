@@ -48,7 +48,7 @@ public class CommentService {
         commentRepository.delete(comment);
     }
 
-    private Comment findComment(Long commentId) {
+    public Comment findComment(Long commentId) {
         return commentRepository.findById(commentId).orElseThrow(() ->
                 new IllegalArgumentException("해당 댓글은 존재하지 않습니다."));
     }

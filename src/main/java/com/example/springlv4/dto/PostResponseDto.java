@@ -3,11 +3,13 @@ package com.example.springlv4.dto;
 import com.example.springlv4.entity.Like;
 import com.example.springlv4.entity.Post;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
+@Setter
 public class PostResponseDto {
     private Long id;
     private String title;
@@ -15,8 +17,9 @@ public class PostResponseDto {
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    private List<CommentResponseDto> comment;
     private Integer like;
+    private List<CommentResponseDto> comment;
+
 
 
 
@@ -28,12 +31,13 @@ public class PostResponseDto {
         this.content = post.getContent();
         this.createdAt = post.getCreatedAt();
         this.modifiedAt = post.getModifiedAt();
+        this.like = post.getLikeList().size();
         this.comment = post.getCommentList()
                 .stream()
                 .map(CommentResponseDto::new)
                 .toList();
 
-        this.like = post.getLikeList().size();
+
     }
 
 }

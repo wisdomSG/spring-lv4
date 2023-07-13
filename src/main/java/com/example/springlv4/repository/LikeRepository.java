@@ -1,5 +1,6 @@
 package com.example.springlv4.repository;
 
+import com.example.springlv4.entity.Comment;
 import com.example.springlv4.entity.Like;
 import com.example.springlv4.entity.Post;
 import com.example.springlv4.entity.User;
@@ -10,4 +11,6 @@ import java.util.Optional;
 public interface LikeRepository extends JpaRepository<Like, Long> {
 
     Optional<Like> findByUserAndPost(User user, Post post);
+
+    Optional<Like> findByUserAndComment(User user, Comment comment);
 }
