@@ -5,6 +5,7 @@ import com.example.springlv4.dto.PostRequestDto;
 import com.example.springlv4.dto.PostResponseDto;
 import com.example.springlv4.entity.Post;
 import com.example.springlv4.entity.User;
+import com.example.springlv4.entity.UserRoleEnum;
 import com.example.springlv4.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -52,7 +53,8 @@ public class PostService {
     public PostResponseDto updatePost(User user, Long id, PostRequestDto requestDto) {
         Post post = findPost(id);
 
-        if (!post.getUser().equals(user)) {
+        // 게시글 작성자(post.user) 와 요청자(user)가 같은지 or Admin인지 확인
+        if (user.getRole().equals(UserRoleEnum.ADMIN) || !post.getUser().equals(user)) {
             throw new IllegalArgumentException("작성자만 삭제/수정 할 수 있습니다.");
         }
         post.setTitle(requestDto.getTitle());
@@ -66,7 +68,7 @@ public class PostService {
     public void DeletePost(User user, Long id) {
         Post post = findPost(id);
 
-        if (!post.getUser().equals(user)) {
+        if (user.getRole().equals(UserRoleEnum.ADMIN) || !post.getUser().equals(user)) {
             throw new IllegalArgumentException("작성자만 삭제/수정 할 수 있습니다.");
         }
 

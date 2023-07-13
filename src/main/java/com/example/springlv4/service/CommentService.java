@@ -4,6 +4,7 @@ import com.example.springlv4.dto.CommentRequestDto;
 import com.example.springlv4.entity.Comment;
 import com.example.springlv4.entity.Post;
 import com.example.springlv4.entity.User;
+import com.example.springlv4.entity.UserRoleEnum;
 import com.example.springlv4.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,16 +33,17 @@ public class CommentService {
     public void updateComment(Long commentId, CommentRequestDto dto, User user) {
         Comment comment = findComment(commentId);
 
-        if (comment.getUser().equals(user)) {
-            comment.setBody(dto.getBody());
-        } else {
-            throw new IllegalArgumentException("직접 장성한 댓글이 아닙니다.");
+        if (!user.getRole().equals(UserRoleEnum.ADMIN) || !comment.getUser().equals(user)) {
+            throw new IllegalArgumentException("직접 작성한 댓글이 아닙니다.");
         }
+
+        comment.setBody(dto.getBody());
     }
 
     public void deleteComment(Long commentId, User user) {
         Comment comment = findComment(commentId);
-        if (!comment.getUser().equals(user)) {
+
+        if (!user.getRole().equals(UserRoleEnum.ADMIN) || !comment.getUser().equals(user)) {
             throw new IllegalArgumentException("직접 작성한 댓글이 아닙니다.");
         }
 

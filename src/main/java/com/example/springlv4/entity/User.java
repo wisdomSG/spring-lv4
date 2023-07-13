@@ -21,9 +21,14 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    public User(String username, String password) {
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING) // enum 타입을 데이터베이스에 저장할때 사용하는 애너테이션
+    private UserRoleEnum role;
+
+    public User(String username, String password, UserRoleEnum role) {
         this.username = username;
         this.password = password;
+        this.role = role;
     }
 
     public void setId(Long id) {

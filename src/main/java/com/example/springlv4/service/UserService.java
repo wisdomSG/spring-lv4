@@ -3,6 +3,7 @@ package com.example.springlv4.service;
 import com.example.springlv4.dto.SignupRequestDto;
 import com.example.springlv4.dto.UserRequestDto;
 import com.example.springlv4.entity.User;
+import com.example.springlv4.entity.UserRoleEnum;
 import com.example.springlv4.repository.UserRepository;
 import com.example.springlv4.security.JwtUtil;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,6 +23,9 @@ public class UserService {
 
     private final JwtUtil jwtUtil;
 
+    private final String ADMIN_TOKEN = "44445"; // ADMIN_TOKEN: 일반사용자인지 관리자인지 구분하기위해서
+
+
 
 
     // 회원가입 메서드
@@ -35,7 +39,21 @@ public class UserService {
             throw new IllegalArgumentException("중복된 username 입니다.");
         }
 
-        User user = new User(username, password);
+        // 사용자 ROLE 확인
+        UserRoleEnum role = UserRoleEnum.USER;
+
+        if(!dto.getAdminToken().isEmpty()) { //admin을 입력했는지 확인하고 입력했다면 true로 바꿔줌
+            dto.setAdmin(true);
+        }
+
+        if (dto.isAdmin()) { // admin을 입력했다면 관리자 암호가 맞는지 확인
+            if (!ADMIN_TOKEN.equals(dto.getAdminToken())) {
+                throw new IllegalArgumentException("관리자 암호가 틀려 등록이 불가능합니다.");
+            }
+            role = UserRoleEnum.ADMIN;
+        }
+
+        User user = new User(username, password, role);
         userRepository.save(user);
 
     }

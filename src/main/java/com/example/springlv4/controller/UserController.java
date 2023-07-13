@@ -6,6 +6,7 @@ import com.example.springlv4.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -25,7 +26,7 @@ public class UserController {
     // 회원가입 기능 - signup
     @PostMapping("/user/signup")
     @Operation(summary = "회원가입 기능 API")
-    public ResponseEntity<String> Signup(@RequestBody SignupRequestDto dto) {
+    public ResponseEntity<String> Signup(@Valid @RequestBody SignupRequestDto dto) {
         userService.signup(dto);
         return ResponseEntity.ok().body("회원가입 성공");
     }
