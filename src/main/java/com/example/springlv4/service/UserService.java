@@ -32,7 +32,7 @@ public class UserService {
         // 회원 중복 확인
         Optional<User> checkUsername = userRepository.findByUsername(username);
         if (checkUsername.isPresent()) {
-            throw new IllegalArgumentException("중복된 사용자가 존재합니다.");
+            throw new IllegalArgumentException("중복된 username 입니다.");
         }
 
         User user = new User(username, password);
@@ -49,7 +49,7 @@ public class UserService {
 
         // password 확인
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new IllegalArgumentException("password 오류입니다.");
+            throw new IllegalArgumentException("회원을 찾을 수 없습니다.");
         }
 
         // JWT 생성 및 헤더에 추가
@@ -61,7 +61,7 @@ public class UserService {
     // 쿼리메서드 사용해서 username으로 DB에 user 찾기
     private User findUser(String username) {
         return userRepository.findByUsername(username).orElseThrow(() ->
-                new IllegalArgumentException("해당 username이 존재하지 않습니다.")
+                new IllegalArgumentException("회원을 찾을 수 없습니다.")
         );
     }
 }

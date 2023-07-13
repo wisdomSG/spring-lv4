@@ -53,7 +53,7 @@ public class PostService {
         Post post = findPost(id);
 
         if (!post.getUser().equals(user)) {
-            throw new RejectedExecutionException();
+            throw new IllegalArgumentException("작성자만 삭제/수정 할 수 있습니다.");
         }
         post.setTitle(requestDto.getTitle());
         post.setContent(requestDto.getContent());
@@ -67,7 +67,7 @@ public class PostService {
         Post post = findPost(id);
 
         if (!post.getUser().equals(user)) {
-            throw new RejectedExecutionException();
+            throw new IllegalArgumentException("작성자만 삭제/수정 할 수 있습니다.");
         }
 
         postRepository.delete(post);
