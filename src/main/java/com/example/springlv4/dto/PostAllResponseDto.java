@@ -13,8 +13,8 @@ public class PostAllResponseDto {
     private String title;
     private String username;
     private String content;
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
+    private String createdAt;
+    private String modifiedAt;
 
 
     public PostAllResponseDto(Post post) {
@@ -22,8 +22,8 @@ public class PostAllResponseDto {
         this.title = post.getTitle();
         this.username = post.getUser().getUsername();
         this.content = post.getContent();
-        this.createdAt = post.getCreatedAt();
-        this.modifiedAt = post.getModifiedAt();
+        this.createdAt = post.getCreatedAtFormatted();
+        this.modifiedAt = post.getModifiedAtFormatted();
 
     }
 }
