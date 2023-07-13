@@ -28,8 +28,11 @@ public class Post extends Timestamped {
     @JoinColumn(name = "userId")
     private User user;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = {CascadeType.REMOVE})
     private List<Comment> commentList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post", cascade = {CascadeType.REMOVE})
+    private List<Like> LikeList = new ArrayList<>();
 
     public Post(String title, String content, User user) {
         this.title = title;

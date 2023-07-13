@@ -1,5 +1,6 @@
 package com.example.springlv4.dto;
 
+import com.example.springlv4.entity.Like;
 import com.example.springlv4.entity.Post;
 import lombok.Getter;
 
@@ -15,6 +16,7 @@ public class PostResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private List<CommentResponseDto> comment;
+    private Integer like;
 
 
 
@@ -31,6 +33,7 @@ public class PostResponseDto {
                 .map(CommentResponseDto::new)
                 .toList();
 
+        this.like = post.getLikeList().size();
     }
 
 }
