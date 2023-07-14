@@ -15,6 +15,7 @@ public class PostAllResponseDto {
     private String content;
     private String createdAt;
     private String modifiedAt;
+    private Integer like;
 
 
     public PostAllResponseDto(Post post) {
@@ -24,6 +25,7 @@ public class PostAllResponseDto {
         this.content = post.getContent();
         this.createdAt = post.getCreatedAtFormatted();
         this.modifiedAt = post.getModifiedAtFormatted();
+        this.like = post.getLikeList().size();
 
     }
 }
